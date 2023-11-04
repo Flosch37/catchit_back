@@ -3,15 +3,15 @@ const router = express.Router();
 const userController = require('../controllers/userController');
 
 // Créer un nouvel utilisateur
-router.post('/users', userController.createUser);
+router.post('/user', userController.createUser);
 
 // Lire un utilisateur par son ID
-router.get('/users/:id', userController.getUserById);
+router.get('/user/:id', userController.getUserById);
 
 // Mettre à jour un utilisateur
-router.put('/users/:id', userController.updateUser);
+router.put('/user/:id', userController.updateUser);
 
 // Supprimer un utilisateur
-router.delete('/users/:id', userController.deleteUser);
+router.delete('/user/:id', userController.deleteUser);
 
 module.exports = router;

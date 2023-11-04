@@ -8,4 +8,4 @@ const sequelize = new Sequelize({
   database: 'catchit_db'
 });
 
-module.exports = sequelize;
+module.exports = sequelize; 

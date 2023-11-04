@@ -11,27 +11,29 @@ exports.createUser = (req, res) => {
     })
     .catch(err => {
       res.status(400).json({ error: err.message });
+      console.log("Erreur lors de la création de l'utilisateur : " + err);
     });
-    
+
 };
 
 // Lire un utilisateur par son ID
 exports.getUserById = (req, res) => {
   const userId = req.params.id;
+  console.log("Recherche de l'utilisateur avec l'ID : " + userId);
 
   User.findByPk(userId)
     .then(user => {
       if (user) {
         res.json(user);
-        console.log("errorfdp")
+        console.log("Utilisateur trouvé");
       } else {
         res.status(404).json({ error: 'Utilisateur non trouvé' });
-        console.log("errorpute")
+        console.log("Utilisateur non trouvé");
       }
     })
     .catch(err => {
       res.status(500).json({ error: err.message });
-      console.log("error")
+      console.log("Erreur de serveur : " + err);
     });
 };
 
@@ -53,9 +55,9 @@ exports.updateUser = (req, res) => {
     })
     .catch(err => {
       res.status(400).json({ error: err.message });
+      console.log("Erreur lors de la mise à jour de l'utilisateur : " + err);
     });
 };
-
 // Supprimer un utilisateur
 exports.deleteUser = (req, res) => {
   const userId = req.params.id;
@@ -65,7 +67,7 @@ exports.deleteUser = (req, res) => {
       if (user) {
         return user.destroy();
       } else {
-        throw new Error('Utilisateur non trouvé');
+        throw new Error('Utilisateur non trouvé'); 
       }
     })
     .then(() => {
@@ -73,5 +75,7 @@ exports.deleteUser = (req, res) => {
     })
     .catch(err => {
       res.status(400).json({ error: err.message });
+      console.log("Erreur lors de la suppression de l'utilisateur : " + err);
     });
 };
+
