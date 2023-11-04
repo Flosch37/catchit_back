@@ -1,4 +1,4 @@
-const User = require('../models/userModel'); // Importez le modèle User
+const { User } = require('../models'); // Importe le modèle User depuis models/index.js
 
 // Créer un nouvel utilisateur
 exports.createUser = (req, res) => {
@@ -13,7 +13,6 @@ exports.createUser = (req, res) => {
       res.status(400).json({ error: err.message });
       console.log("Erreur lors de la création de l'utilisateur : " + err);
     });
-
 };
 
 // Lire un utilisateur par son ID
@@ -58,6 +57,7 @@ exports.updateUser = (req, res) => {
       console.log("Erreur lors de la mise à jour de l'utilisateur : " + err);
     });
 };
+
 // Supprimer un utilisateur
 exports.deleteUser = (req, res) => {
   const userId = req.params.id;
@@ -67,7 +67,7 @@ exports.deleteUser = (req, res) => {
       if (user) {
         return user.destroy();
       } else {
-        throw new Error('Utilisateur non trouvé'); 
+        throw new Error('Utilisateur non trouvé');
       }
     })
     .then(() => {
@@ -78,4 +78,3 @@ exports.deleteUser = (req, res) => {
       console.log("Erreur lors de la suppression de l'utilisateur : " + err);
     });
 };
-

@@ -1,16 +1,20 @@
 const express = require('express');
+const userRoutes = require('./routes/userRoutes')
 const app = express();
 const port = 3000;
 
-const db = require('./config/database'); 
-const userRoutes = require('./routes/userRoutes');
+const { Sequelize } = require('sequelize');
 
-// Activation de la gestion des données JSON dans les requêtes
-app.use(express.json());
+const sequelize = new Sequelize({
+  dialect: 'mysql',
+  host: 'localhost',
+  username: 'root',
+  password: null,
+  database: 'catchit_db',
+});
 
-app.use('/user', userRoutes);
-
-db.authenticate()
+sequelize
+  .authenticate()
   .then(() => {
     console.log('Connecté à la base de données MySQL');
   })
@@ -22,4 +26,12 @@ app.listen(port, () => {
   console.log(`Serveur en cours d'exécution sur le port ${port}`);
 });
 
-console.log("clown")
+
+
+// Activation de la gestion des données JSON dans les requêtes
+app.use(express.json());
+app.use('/user', userRoutes);
+
+
+
+
