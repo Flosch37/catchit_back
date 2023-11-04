@@ -8,4 +8,6 @@ const sequelize = new Sequelize({
   database: 'catchit_db'
 });
 
+sequelize.sync()
+
 module.exports = sequelize; 

@@ -8,6 +8,8 @@ const userRoutes = require('./routes/userRoutes');
 // Activation de la gestion des données JSON dans les requêtes
 app.use(express.json());
 
+app.use('/user', userRoutes);
+
 db.authenticate()
   .then(() => {
     console.log('Connecté à la base de données MySQL');
@@ -20,4 +22,4 @@ app.listen(port, () => {
   console.log(`Serveur en cours d'exécution sur le port ${port}`);
 });
 
-app.use('/user', userRoutes);
+console.log("clown")
