@@ -2,6 +2,8 @@ const express = require('express');
 const userRoutes = require('./routes/userRoutes')
 const collectionRoutes = require('./routes/collectionRoutes')
 const objectRoutes = require('./routes/objectRoutes')
+const userObjectOwnedRoutes = require('./routes/userObjectOwnedRoutes');
+const reviewRoutes = require('./routes/reviewRoutes')
 const app = express();
 const port = 3000;
 
@@ -33,8 +35,10 @@ app.listen(port, () => {
 // Activation de la gestion des données JSON dans les requêtes
 app.use(express.json());
 app.use('',userRoutes);
-app.use('',collectionRoutes)
+app.use('',collectionRoutes);
 app.use('',objectRoutes);
+app.use('',userObjectOwnedRoutes);
+app.use('', reviewRoutes);
 
 
 

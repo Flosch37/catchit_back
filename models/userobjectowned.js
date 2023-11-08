@@ -11,11 +11,29 @@ module.exports = (sequelize, DataTypes) => {
      */
     static associate(models) {
       // define association here
+      UserObjectOwned.belongsTo(models.User, { foreignKey: 'userId' });
+      UserObjectOwned.belongsTo(models.Object, { foreignKey: 'objectId' });
     }
   }
   UserObjectOwned.init({
-    userId: DataTypes.INTEGER,
-    objectId: DataTypes.INTEGER,
+    userId: {
+      type: DataTypes.INTEGER,
+      references: {
+        model: 'User', // 'Users' would be the table name
+        key: 'id',
+      },
+      onUpdate: 'CASCADE',
+      onDelete: 'CASCADE',
+    },
+    objectId: {
+      type: DataTypes.INTEGER,
+      references: {
+        model: 'Object', // 'Objects' would be the table name
+        key: 'id',
+      },
+      onUpdate: 'CASCADE',
+      onDelete: 'CASCADE',
+    },
     quantity: DataTypes.INTEGER
   }, {
     sequelize,
