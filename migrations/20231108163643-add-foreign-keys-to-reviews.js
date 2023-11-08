@@ -61,6 +61,17 @@ module.exports = {
       onUpdate: 'CASCADE',
       onDelete: 'SET NULL'
     });
+
+    await queryInterface.changeColumn('Objects', 'collectionId', {
+      type: Sequelize.INTEGER,
+      allowNull: false,
+      references: {
+        model: 'Collections', // nom de la table référencée
+        key: 'id',
+      },
+      onUpdate: 'CASCADE',
+      onDelete: 'SET NULL'
+    });
   },
 
      
@@ -98,6 +109,12 @@ module.exports = {
 
   // Revenir à la version précédente pour UserObjectOwneds pour objectId
   await queryInterface.changeColumn('UserObjectOwneds', 'objectId', {
+    type: Sequelize.INTEGER,
+    allowNull: true // Mettre 'false' si la colonne était 'NOT NULL' avant la migration
+    // Supprimer les références si elles ont été ajoutées dans `up`
+  });
+
+  await queryInterface.changeColumn('Objects', 'collectionId', {
     type: Sequelize.INTEGER,
     allowNull: true // Mettre 'false' si la colonne était 'NOT NULL' avant la migration
     // Supprimer les références si elles ont été ajoutées dans `up`
