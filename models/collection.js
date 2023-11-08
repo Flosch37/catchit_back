@@ -10,14 +10,24 @@ module.exports = (sequelize, DataTypes) => {
      * The `models/index` file will call this method automatically.
      */
     static associate(models) {
-      // define association here
+      // Collection belongs to User
+      Collection.belongsTo(models.User, { foreignKey: 'userId' });
     }
   }
   Collection.init({
     name: DataTypes.STRING,
     description: DataTypes.STRING,
     isAdmin: DataTypes.BOOLEAN,
-    userId: DataTypes.INTEGER
+    userId: {
+      type: DataTypes.INTEGER,
+      allowNull: false,
+      references: {
+        model: 'User', // 'Users' would be the table name
+        key: 'id',
+      },
+      onUpdate: 'CASCADE',
+      onDelete: 'SET NULL', // or 'CASCADE' if you want to delete the collection when the user is deleted
+    }
   }, {
     sequelize,
     modelName: 'Collection',

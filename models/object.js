@@ -18,7 +18,6 @@ module.exports = (sequelize, DataTypes) => {
     name: DataTypes.STRING,
     description: DataTypes.STRING,
     image_path: DataTypes.STRING,
-    created_at: DataTypes.DATE,
     is_real: DataTypes.BOOLEAN
   }, {
     sequelize,
