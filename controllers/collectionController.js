@@ -78,3 +78,17 @@ exports.deleteCollection = (req, res) => {
       console.log("Erreur lors de la suppression de la collection : " + err);
     });
 };
+// Récupérer les trois dernières collections
+exports.getAllCollections = (req, res) => {
+  Collection.findAll({
+      limit: 3,
+      order: [['createdAt', 'DESC']] // Assurez-vous que 'createdAt' est le nom correct du champ
+  })
+  .then(collections => {
+      res.json(collections);
+  })
+  .catch(err => {
+      res.status(500).json({ error: err.message });
+      console.log("Erreur lors de la récupération des dernières collections : " + err);
+  });
+};

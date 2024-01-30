@@ -1,45 +1,46 @@
 const express = require('express');
-const userRoutes = require('./routes/userRoutes')
-const collectionRoutes = require('./routes/collectionRoutes')
-const objectRoutes = require('./routes/objectRoutes')
+const cors = require('cors');
+const userRoutes = require('./routes/userRoutes');
+const collectionRoutes = require('./routes/collectionRoutes');
+const objectRoutes = require('./routes/objectRoutes');
 const userObjectOwnedRoutes = require('./routes/userObjectOwnedRoutes');
-const reviewRoutes = require('./routes/reviewRoutes')
-const app = express();
-const port = 3000;
-
+const reviewRoutes = require('./routes/reviewRoutes');
 const { Sequelize } = require('sequelize');
 
-const sequelize = new Sequelize({
-  dialect: 'mysql',
-  host: 'localhost',
-  username: 'root',
-  password: null,
-  database: 'catchit_db',
-});
+function createApp() {
+    const app = express();
+    app.use(cors());
+    app.use(express.json());
+    return app;
+}
 
-sequelize
-  .authenticate()
-  .then(() => {
-    console.log('Connecté à la base de données MySQL');
-  })
-  .catch(err => {
-    console.error('Erreur de connexion à la base de données : ' + err);
-  });
+function initializeRoutes(app) {
+    app.use(userRoutes);
+    app.use(collectionRoutes);
+    app.use(objectRoutes);
+    app.use(userObjectOwnedRoutes);
+    app.use(reviewRoutes);
+}
 
-app.listen(port, () => {
-  console.log(`Serveur en cours d'exécution sur le port ${port}`);
-});
+function initializeDatabase() {
+    const sequelize = new Sequelize('catchit_db', 'root', null, {
+        host: 'localhost',
+        dialect: 'mysql'
+    });
 
+    sequelize.authenticate()
+        .then(() => console.log('Connecté à la base de données MySQL'))
+        .catch(err => console.error('Erreur de connexion à la base de données:', err));
+}
 
+function startServer(app) {
+    const port = 3000;
+    app.listen(port, () => {
+        console.log(`Serveur en cours d'exécution sur le port ${port}`);
+    });
+}
 
-// Activation de la gestion des données JSON dans les requêtes
-app.use(express.json());
-app.use('',userRoutes);
-app.use('',collectionRoutes);
-app.use('',objectRoutes);
-app.use('',userObjectOwnedRoutes);
-app.use('', reviewRoutes);
-
-
-
-
+const app = createApp();
+initializeRoutes(app);
+initializeDatabase();
+startServer(app);
