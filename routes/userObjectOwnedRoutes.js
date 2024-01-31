@@ -1,18 +1,18 @@
-const express = require('express');
-const userObjectOwnedController = require('../controllers/userObjectOwnedController');
+import { Router } from 'express';
+import { createUserObjectOwned, getUserObjectOwnedById, updateUserObjectOwned, deleteUserObjectOwned } from '../controllers/userObjectOwnedController.js';
 
-const router = express.Router();
+const router = Router();
 
 // Create a new UserObjectOwned
-router.post('/user-object-owned', userObjectOwnedController.createUserObjectOwned);
+router.post('/user-object-owned', createUserObjectOwned);
 
 // Get a UserObjectOwned by ID
-router.get('/user-object-owned/:id', userObjectOwnedController.getUserObjectOwnedById);
+router.get('/user-object-owned/:id', getUserObjectOwnedById);
 
 // Update a UserObjectOwned
-router.put('/user-object-owned/:id', userObjectOwnedController.updateUserObjectOwned);
+router.put('/user-object-owned/:id', updateUserObjectOwned);
 
 // Delete a UserObjectOwned
-router.delete('/user-object-owned/:id', userObjectOwnedController.deleteUserObjectOwned);
+router.delete('/user-object-owned/:id', deleteUserObjectOwned);
 
-module.exports = router;
+export default router;

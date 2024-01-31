@@ -1,7 +1,8 @@
-const { Object } = require('../models'); // Importez le modèle Object
+import Object from '../models/object.js'; // Remplacez 'object.js' par le nom de votre fichier de modèle d'objet
+
 
 // Créer un nouvel objet
-exports.createObject = (req, res) => {
+export function createObject(req, res) {
   const objectData = req.body;
 
   Object.create(objectData)
@@ -12,10 +13,10 @@ exports.createObject = (req, res) => {
       res.status(400).json({ error: err.message });
       console.log("Erreur lors de la création de l'objet : " + err);
     });
-};
+}
 
 // Lire un objet par son ID
-exports.getObjectById = (req, res) => {
+export function getObjectById(req, res) {
   const objectId = req.params.id;
 
   Object.findByPk(objectId)
@@ -32,10 +33,10 @@ exports.getObjectById = (req, res) => {
       res.status(500).json({ error: err.message });
       console.log("Erreur de serveur : " + err);
     });
-};
+}
 
 // Mettre à jour un objet
-exports.updateObject = (req, res) => {
+export function updateObject(req, res) {
   const objectId = req.params.id;
   const updatedObjectData = req.body;
 
@@ -54,10 +55,10 @@ exports.updateObject = (req, res) => {
       res.status(400).json({ error: err.message });
       console.log("Erreur lors de la mise à jour de l'objet : " + err);
     });
-};
+}
 
 // Supprimer un objet
-exports.deleteObject = (req, res) => {
+export function deleteObject(req, res) {
   const objectId = req.params.id;
 
   Object.findByPk(objectId)
@@ -75,6 +76,6 @@ exports.deleteObject = (req, res) => {
       res.status(400).json({ error: err.message });
       console.log("Erreur lors de la suppression de l'objet : " + err);
     });
-};
+}
 
-module.exports = exports;
+

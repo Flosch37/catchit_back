@@ -1,7 +1,7 @@
-const { Collection } = require('../models'); // Importez le modèle Collection
+import Collection  from '../models/collection.js'; 
 
 // Créer une nouvelle collection
-exports.createCollection = (req, res) => {
+export function createCollection(req, res) {
   // Récupérez les données de la requête
   const collectionData = req.body;
 
@@ -13,10 +13,10 @@ exports.createCollection = (req, res) => {
       res.status(400).json({ error: err.message });
       console.log("Erreur lors de la création de la collection : " + err);
     });
-};
+}
 
 // Lire une collection par son ID
-exports.getCollectionById = (req, res) => {
+export function getCollectionById(req, res) {
   const collectionId = req.params.id;
   console.log("Recherche de la collection avec l'ID : " + collectionId);
 
@@ -34,10 +34,10 @@ exports.getCollectionById = (req, res) => {
       res.status(500).json({ error: err.message });
       console.log("Erreur de serveur : " + err);
     });
-};
+}
 
 // Mettre à jour une collection
-exports.updateCollection = (req, res) => {
+export function updateCollection(req, res) {
   const collectionId = req.params.id;
   const updatedCollectionData = req.body;
 
@@ -56,10 +56,10 @@ exports.updateCollection = (req, res) => {
       res.status(400).json({ error: err.message });
       console.log("Erreur lors de la mise à jour de la collection : " + err);
     });
-};
+}
 
 // Supprimer une collection
-exports.deleteCollection = (req, res) => {
+export function deleteCollection(req, res) {
   const collectionId = req.params.id;
 
   Collection.findByPk(collectionId)
@@ -77,9 +77,9 @@ exports.deleteCollection = (req, res) => {
       res.status(400).json({ error: err.message });
       console.log("Erreur lors de la suppression de la collection : " + err);
     });
-};
+}
 // Récupérer les trois dernières collections
-exports.getAllCollections = (req, res) => {
+export function getAllCollections(req, res) {
   Collection.findAll({
       limit: 3,
       order: [['createdAt', 'DESC']] // Assurez-vous que 'createdAt' est le nom correct du champ
@@ -91,4 +91,4 @@ exports.getAllCollections = (req, res) => {
       res.status(500).json({ error: err.message });
       console.log("Erreur lors de la récupération des dernières collections : " + err);
   });
-};
+}

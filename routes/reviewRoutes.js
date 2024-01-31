@@ -1,24 +1,24 @@
-const express = require('express');
-const reviewController = require('../controllers/reviewController');
+import express from 'express';
+import { createReview, getReviewById, updateReview, deleteReview, getReviewsByObjectId, getReviewsByUserId } from '../controllers/reviewController.js';
 
 const router = express.Router();
 
 // Créer un nouvel avis
-router.post('/review', reviewController.createReview);
+router.post('/reviews', createReview); // Change '/review' to '/reviews' if you are dealing with multiple reviews
 
 // Obtenir un avis par ID
-router.get('/review/:id', reviewController.getReviewById);
+router.get('/reviews/:id', getReviewById); // Same here
 
 // Mettre à jour un avis
-router.put('/review/:id', reviewController.updateReview);
+router.put('/reviews/:id', updateReview); // And here
 
 // Supprimer un avis
-router.delete('/review/:id', reviewController.deleteReview);
+router.delete('/reviews/:id', deleteReview); // And here
 
 // Lister tous les avis pour un objet spécifique
-router.get('/review/object/:objectId', reviewController.getReviewsByObjectId);
+router.get('/reviews/object/:objectId', getReviewsByObjectId); // Change to '/reviews/object/:objectId'
 
 // Lister tous les avis d'un utilisateur spécifique
-router.get('/review/user/:userId', reviewController.getReviewsByUserId);
+router.get('/reviews/user/:userId', getReviewsByUserId); // Change to '/reviews/user/:userId'
 
-module.exports = router;
+export default router;

@@ -1,17 +1,17 @@
-const { Review } = require('../models');
+import Review from '../models/review.js'; // Assurez-vous que le chemin et le nom du fichier sont corrects
 
 // Créer une nouvelle review
-exports.createReview = async (req, res) => {
+export async function createReview(req, res) {
   try {
     const review = await Review.create(req.body);
     res.status(201).json(review);
   } catch (err) {
     res.status(400).json({ error: err.message });
   }
-};
+}
 
 // Lire une review par son ID
-exports.getReviewById = async (req, res) => {
+export async function getReviewById(req, res) {
   try {
     const review = await Review.findByPk(req.params.id);
     if (review) {
@@ -22,10 +22,10 @@ exports.getReviewById = async (req, res) => {
   } catch (err) {
     res.status(500).json({ error: err.message });
   }
-};
+}
 
 // Mettre à jour une review
-exports.updateReview = async (req, res) => {
+export async function updateReview(req, res) {
   try {
     const review = await Review.findByPk(req.params.id);
     if (review) {
@@ -37,10 +37,10 @@ exports.updateReview = async (req, res) => {
   } catch (err) {
     res.status(400).json({ error: err.message });
   }
-};
+}
 
 // Supprimer une review
-exports.deleteReview = async (req, res) => {
+export async function deleteReview(req, res) {
   try {
     const review = await Review.findByPk(req.params.id);
     if (review) {
@@ -52,10 +52,10 @@ exports.deleteReview = async (req, res) => {
   } catch (err) {
     res.status(500).json({ error: err.message });
   }
-};
+}
 
 // Lister tous les avis pour un objet spécifique
-exports.getReviewsByObjectId = async (req, res) => {
+export async function getReviewsByObjectId(req, res) {
   try {
     const reviews = await Review.findAll({
       where: { ObjectId: req.params.objectId }
@@ -64,10 +64,10 @@ exports.getReviewsByObjectId = async (req, res) => {
   } catch (err) {
     res.status(500).json({ error: err.message });
   }
-};
+}
 
 // Lister tous les avis par un utilisateur spécifique
-exports.getReviewsByUserId = async (req, res) => {
+export async function getReviewsByUserId(req, res) {
   try {
     const reviews = await Review.findAll({
       where: { UserId: req.params.userId }
@@ -76,4 +76,4 @@ exports.getReviewsByUserId = async (req, res) => {
   } catch (err) {
     res.status(500).json({ error: err.message });
   }
-};
+}

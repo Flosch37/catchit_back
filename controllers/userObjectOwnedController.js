@@ -1,17 +1,17 @@
-const { UserObjectOwned } = require('../models');
+import UserObjectOwned  from '../models/userobjectowned.js';
 
 // Créer un nouvel objet possédé par l'utilisateur
-exports.createUserObjectOwned = async (req, res) => {
+export async function createUserObjectOwned(req, res) {
   try {
     const userObjectOwned = await UserObjectOwned.create(req.body);
     res.status(201).json(userObjectOwned);
   } catch (err) {
     res.status(400).json({ error: err.message });
   }
-};
+}
 
 // Lire un objet possédé par l'utilisateur par son ID
-exports.getUserObjectOwnedById = async (req, res) => {
+export async function getUserObjectOwnedById(req, res) {
   try {
     const userObjectOwned = await UserObjectOwned.findByPk(req.params.id);
     if (userObjectOwned) {
@@ -22,10 +22,10 @@ exports.getUserObjectOwnedById = async (req, res) => {
   } catch (err) {
     res.status(500).json({ error: err.message });
   }
-};
+}
 
 // Mettre à jour un objet possédé par l'utilisateur
-exports.updateUserObjectOwned = async (req, res) => {
+export async function updateUserObjectOwned(req, res) {
   try {
     const userObjectOwned = await UserObjectOwned.findByPk(req.params.id);
     if (userObjectOwned) {
@@ -37,10 +37,10 @@ exports.updateUserObjectOwned = async (req, res) => {
   } catch (err) {
     res.status(400).json({ error: err.message });
   }
-};
+}
 
 // Supprimer un objet possédé par l'utilisateur
-exports.deleteUserObjectOwned = async (req, res) => {
+export async function deleteUserObjectOwned(req, res) {
   try {
     const userObjectOwned = await UserObjectOwned.findByPk(req.params.id);
     if (userObjectOwned) {
@@ -52,4 +52,4 @@ exports.deleteUserObjectOwned = async (req, res) => {
   } catch (err) {
     res.status(500).json({ error: err.message });
   }
-};
+}

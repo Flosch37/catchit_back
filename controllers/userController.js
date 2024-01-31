@@ -1,7 +1,7 @@
-const { User } = require('../models'); // Importe le modèle User depuis models/index.js
+import User from '../models/user.js'; // Importe le modèle User depuis models/index.js
 
 // Créer un nouvel utilisateur
-exports.createUser = (req, res) => {
+export function createUser(req, res) {
   // Récupérez les données de la requête
   const userData = req.body;
 
@@ -13,10 +13,10 @@ exports.createUser = (req, res) => {
       res.status(400).json({ error: err.message });
       console.log("Erreur lors de la création de l'utilisateur : " + err);
     });
-};
+}
 
 // Lire un utilisateur par son ID
-exports.getUserById = (req, res) => {
+export function getUserById(req, res) {
   const userId = req.params.id;
   console.log("Recherche de l'utilisateur avec l'ID : " + userId);
 
@@ -34,10 +34,10 @@ exports.getUserById = (req, res) => {
       res.status(500).json({ error: err.message });
       console.log("Erreur de serveur : " + err);
     });
-};
+}
 
 // Mettre à jour un utilisateur
-exports.updateUser = (req, res) => {
+export function updateUser(req, res) {
   const userId = req.params.id;
   const updatedUserData = req.body;
 
@@ -56,10 +56,10 @@ exports.updateUser = (req, res) => {
       res.status(400).json({ error: err.message });
       console.log("Erreur lors de la mise à jour de l'utilisateur : " + err);
     });
-};
+}
 
 // Supprimer un utilisateur
-exports.deleteUser = (req, res) => {
+export function deleteUser(req, res) {
   const userId = req.params.id;
 
   User.findByPk(userId)
@@ -77,4 +77,4 @@ exports.deleteUser = (req, res) => {
       res.status(400).json({ error: err.message });
       console.log("Erreur lors de la suppression de l'utilisateur : " + err);
     });
-};
+}

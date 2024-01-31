@@ -1,46 +1,32 @@
-const express = require('express');
-const cors = require('cors');
-const userRoutes = require('./routes/userRoutes');
-const collectionRoutes = require('./routes/collectionRoutes');
-const objectRoutes = require('./routes/objectRoutes');
-const userObjectOwnedRoutes = require('./routes/userObjectOwnedRoutes');
-const reviewRoutes = require('./routes/reviewRoutes');
-const { Sequelize } = require('sequelize');
+import dotenv from 'dotenv';
+dotenv.config();
 
-function createApp() {
-    const app = express();
-    app.use(cors());
-    app.use(express.json());
-    return app;
-}
+import express from 'express';
+const json = express;
+import cors from 'cors';
 
-function initializeRoutes(app) {
-    app.use(userRoutes);
-    app.use(collectionRoutes);
-    app.use(objectRoutes);
-    app.use(userObjectOwnedRoutes);
-    app.use(reviewRoutes);
-}
+// Assurez-vous que les chemins d'importation sont corrects
+import userRoutes from './routes/userRoutes.js';
+import collectionRoutes from './routes/collectionRoutes.js';
+import objectRoutes from './routes/objectRoutes.js';
+import userObjectOwnedRoutes from './routes/userObjectOwnedRoutes.js';
+import reviewRoutes from './routes/reviewRoutes.js';
+import authRoutes from './routes/authRoutes.js';
 
-function initializeDatabase() {
-    const sequelize = new Sequelize('catchit_db', 'root', null, {
-        host: 'localhost',
-        dialect: 'mysql'
-    });
+const app = express();
+app.use(cors());
+app.use(json());
 
-    sequelize.authenticate()
-        .then(() => console.log('Connecté à la base de données MySQL'))
-        .catch(err => console.error('Erreur de connexion à la base de données:', err));
-}
+app.use('/api/auth', authRoutes);
+app.use(userRoutes);
+app.use(collectionRoutes);
+app.use(objectRoutes);
+app.use(userObjectOwnedRoutes);
+app.use(reviewRoutes);
 
-function startServer(app) {
-    const port = 3000;
-    app.listen(port, () => {
-        console.log(`Serveur en cours d'exécution sur le port ${port}`);
-    });
-}
+import './database.js';
 
-const app = createApp();
-initializeRoutes(app);
-initializeDatabase();
-startServer(app);
+const PORT = process.env.PORT || 3000;
+app.listen(PORT, () => {
+    console.log(`Serveur en cours d'exécution sur le port ${PORT}`);
+});

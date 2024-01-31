@@ -1,17 +1,17 @@
-const express = require('express');
-const router = express.Router();
-const objectController = require('../controllers/objectController');
+import { Router } from 'express';
+const router = Router();
+import { createObject, getObjectById, updateObject, deleteObject } from '../controllers/objectController.js';
 
 // Créer un nouvel utilisateur
-router.post('/object', objectController.createObject);
+router.post('/object', createObject);
 
 // Lire un utilisateur par son ID
-router.get('/object/:id', objectController.getObjectById);
+router.get('/object/:id', getObjectById);
 
 // Mettre à jour un utilisateur
-router.put('/object/:id', objectController.updateObject);
+router.put('/object/:id', updateObject);
 
 // Supprimer un utilisateur
-router.delete('/object/:id', objectController.deleteObject);
+router.delete('/object/:id', deleteObject);
 
-module.exports = router;
+export default router;
