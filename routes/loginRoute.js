@@ -2,11 +2,11 @@ import { Router } from 'express';
 import { compare } from 'bcrypt';
 import pkg from 'jsonwebtoken'; // Modification ici
 const { sign } = pkg; // Et ici
-import User from '../models/user.js'; // Assurez-vous que le chemin est correct
 
 const router = Router();
+import User from '../models/user.js'; // Assurez-vous que le chemin est correct
 
-const JWT_SECRET = 'votre_secret_jwt_ici'; // Utilisez une variable d'environnement pour votre secret
+const JWT_SECRET = '4134f2bd46889d0c6a5bf860b0012da9e1703108f71c065240c214dedc04d00a29e8d31dc62722f4329f10de1c1f1aef02cbe0a37ccab1afb71389f71e93b2b';
 
 router.post('/api/auth/login', async (req, res) => {
     const { username, password } = req.body;
