@@ -11,11 +11,7 @@ const sequelize = new Sequelize(
   process.env.DB_PASS, {
     host: process.env.DB_HOST,
     dialect: 'mysql',
-    // Ajoutez les paramètres additionnels selon vos besoins
-    // logging: false, // Désactivez le logging si vous ne voulez pas de logs de Sequelize
-    // define: {
-    //   freezeTableName: true // Si vous voulez que le nom des tables reste tel que défini dans les modèles
-    // }
+    
 });
 
 // Testez la connexion à la base de données

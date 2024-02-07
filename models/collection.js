@@ -16,7 +16,7 @@ Collection.init({
     type: DataTypes.INTEGER,
     allowNull: false,
     references: {
-      model: 'User', // Assurez-vous que cela correspond au nom du modèle dans la base de données
+      model: 'User', 
       key: 'id',
     },
     onUpdate: 'CASCADE',

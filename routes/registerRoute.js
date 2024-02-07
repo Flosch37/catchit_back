@@ -1,43 +1,43 @@
 import { Router } from 'express';
 import { hash } from 'bcrypt';
-import User from '../models/user.js'; // Assurez-vous que le chemin est correct
+import User from '../models/user.js';
+// Importation ajustée pour jsonwebtoken
+import jwt from 'jsonwebtoken'; 
 
 const router = Router();
 
-const JWT_SECRET = 'votre_secret_jwt_ici'; // Utilisez une variable d'environnement pour votre secret
+// Utilisation d'une variable d'environnement pour le secret JWT
+const JWT_SECRET = process.env.JWT_SECRET;
 
 router.post('/api/auth/register', async (req, res) => {
     const { username, password, email } = req.body;
 
-    // Validation simple
-    if (!username || !password || !email) {
-        return res.status(400).json({ message: 'Tous les champs sont requis.' });
+    // Validation améliorée (exemple basique)
+    if (!username || !password || !email || password.length < 8) {
+        return res.status(400).json({ message: 'Validation failed: all fields are required and password must be at least 8 characters long.' });
     }
 
     try {
-        // Vérifiez si l'utilisateur existe déjà
         const existingUser = await User.findOne({ where: { username } });
         if (existingUser) {
-            return res.status(409).json({ message: 'Le nom d’utilisateur est déjà pris.' });
+            return res.status(409).json({ message: 'Username is already taken.' });
         }
 
-        // Hashage du mot de passe
         const hashedPassword = await hash(password, 10);
 
-        // Création du nouvel utilisateur
         const newUser = await User.create({
             username,
             password: hashedPassword,
             email
         });
 
-        // Vous pouvez également générer un token JWT ici si vous souhaitez connecter l'utilisateur immédiatement après l'inscription
-        // const token = sign({ userId: newUser.id }, JWT_SECRET, { expiresIn: '1h' });
+        // Utilisation de sign à partir de l'importation ajustée
+        const token = jwt.sign({ userId: newUser.id }, JWT_SECRET, { expiresIn: '1h' });
 
-        res.status(201).json({ message: 'Utilisateur créé avec succès', userId: newUser.id });
+        res.status(201).json({ message: 'User successfully created', userId: newUser.id });
     } catch (error) {
         console.error(error);
-        res.status(500).json({ message: 'Erreur serveur.' });
+        res.status(500).json({ message: 'Server error.' });
     }
 });
 
