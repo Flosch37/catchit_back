@@ -5,20 +5,24 @@ import express from 'express';
 const app = express();
 import cors from 'cors';
 
-// Importations des routes
+// Importations des routes ajustées
 import userRoutes from './routes/userRoutes.js';
 import collectionRoutes from './routes/collectionRoutes.js';
 import objectRoutes from './routes/objectRoutes.js';
 import userObjectOwnedRoutes from './routes/userObjectOwnedRoutes.js';
 import reviewRoutes from './routes/reviewRoutes.js';
-import authRoutes from './routes/authRoutes.js'; 
+// Supposons que vous avez créé des fichiers séparés pour l'enregistrement et la connexion
+import registerRoute from './routes/registerRoute.js'; 
+import loginRoute from './routes/loginRoute.js';
 
 app.use(cors());
 app.use(express.json());
 
-// Configuration des routes
-app.use('/api/auth', authRoutes); 
+// Configuration des routes ajustée
 app.use('/api/users', userRoutes);
+app.use('/api/register', registerRoute); // Configuration de la route d'enregistrement
+//app.use('/api/login', loginRoute); // Configuration de la route de connexion
+
 app.use('/collection', collectionRoutes);
 app.use('/api/objects', objectRoutes);
 app.use('/api/userObjectsOwned', userObjectOwnedRoutes);

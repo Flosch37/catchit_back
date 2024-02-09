@@ -7,7 +7,6 @@ const SALT_ROUNDS = 10;
 
 class User extends Model {
     static associate(models) {
-        
         User.hasMany(models.Collection, { foreignKey: 'userId', as: 'collections' });
     }
 }
@@ -47,13 +46,21 @@ User.init({
     modelName: 'User',
     hooks: {
         beforeCreate: async (user) => {
+            console.log('Before creating user:');
+            console.log('User data:', user.toJSON());
             const hashedPassword = await bcrypt.hash(user.password, SALT_ROUNDS);
+            console.log('Hashed password:', hashedPassword);
             user.password = hashedPassword;
+            console.log('Modified user data:', user.toJSON());
         },
         beforeUpdate: async (user) => {
+            console.log('Before updating user:');
+            console.log('User data:', user.toJSON());
             if (user.changed('password')) {
                 const hashedPassword = await bcrypt.hash(user.password, SALT_ROUNDS);
+                console.log('Hashed password:', hashedPassword);
                 user.password = hashedPassword;
+                console.log('Modified user data:', user.toJSON());
             }
         }
     }

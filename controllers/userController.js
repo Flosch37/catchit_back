@@ -1,80 +1,114 @@
-import User from '../models/user.js'; // Importe le modèle User depuis models/index.js
+import bcrypt from 'bcrypt';
+import jwt from 'jsonwebtoken';
+import User from '../models/user.js'; // Assurez-vous que le chemin d'importation est correct
 
-// Créer un nouvel utilisateur
-export function createUser(req, res) {
-  // Récupérez les données de la requête
-  const userData = req.body;
+// Fonction pour créer un nouvel utilisateur avec un mot de passe haché
+export async function createUser(req, res) {
+  const { username, password, email } = req.body;
 
-  User.create(userData)
-    .then(user => {
-      res.status(201).json(user);
-    })
-    .catch(err => {
-      res.status(400).json({ error: err.message });
-      console.log("Erreur lors de la création de l'utilisateur : " + err);
+  try {
+    console.log('Request body:', req.body);
+    //const hashedPassword = await bcrypt.hash(password, 10); // Hache le mot de passe
+    //console.log('Hashed password:', hashedPassword);
+    const user = await User.create({
+      username,
+      password: password,
+      email,
     });
+    console.log('Created user:', user.toJSON());
+    res.status(201).json(user);
+  } catch (err) {
+    res.status(400).json({ error: err.message });
+    console.error("Erreur lors de la création de l'utilisateur : ", err);
+  }
+}
+
+// Fonction pour connecter un utilisateur avec comparaison du mot de passe
+export async function loginUser(req, res) {
+  const { username, password } = req.body;
+
+  try {
+    console.log('Login request:', req.body);
+    const user = await User.findOne({ where: { username } });
+    console.log('Found user:', user ? user.toJSON() : null);
+    if (!user) {
+      return res.status(401).json({ message: 'Identifiants invalides.' });
+    }
+    console.log('Password found:', password); 
+    console.log('User password:', user.password); 
+    const isMatch = await bcrypt.compare(password, user.password);
+    console.log('Password match:', isMatch);
+    if (!isMatch) {
+      return res.status(401).json({ message: 'Identifiants invalides.' });
+    }
+
+    const token = jwt.sign({ userId: user.id }, process.env.JWT_SECRET, { expiresIn: '1h' });
+    console.log('Generated token:', token);
+    res.json({ message: 'Connexion réussie', token });
+  } catch (err) {
+    res.status(500).json({ error: err.message });
+    console.error("Erreur lors de la connexion de l'utilisateur : ", err);
+  }
 }
 
 // Lire un utilisateur par son ID
-export function getUserById(req, res) {
+export async function getUserById(req, res) {
   const userId = req.params.id;
-  console.log("Recherche de l'utilisateur avec l'ID : " + userId);
 
-  User.findByPk(userId)
-    .then(user => {
-      if (user) {
-        res.json(user);
-        console.log("Utilisateur trouvé");
-      } else {
-        res.status(404).json({ error: 'Utilisateur non trouvé' });
-        console.log("Utilisateur non trouvé");
-      }
-    })
-    .catch(err => {
-      res.status(500).json({ error: err.message });
-      console.log("Erreur de serveur : " + err);
-    });
+  try {
+    console.log('Get user by ID:', userId);
+    const user = await User.findByPk(userId);
+    console.log('Found user:', user ? user.toJSON() : null);
+    if (user) {
+      res.json(user);
+    } else {
+      res.status(404).json({ error: 'Utilisateur non trouvé' });
+    }
+  } catch (err) {
+    res.status(500).json({ error: err.message });
+    console.error("Erreur lors de la recherche de l'utilisateur : ", err);
+  }
 }
 
 // Mettre à jour un utilisateur
-export function updateUser(req, res) {
+export async function updateUser(req, res) {
   const userId = req.params.id;
   const updatedUserData = req.body;
 
-  User.findByPk(userId)
-    .then(user => {
-      if (user) {
-        return user.update(updatedUserData);
-      } else {
-        throw new Error('Utilisateur non trouvé');
-      }
-    })
-    .then(updatedUser => {
+  try {
+    console.log('Update user by ID:', userId);
+    console.log('Updated user data:', updatedUserData);
+    const user = await User.findByPk(userId);
+    console.log('Found user:', user ? user.toJSON() : null);
+    if (user) {
+      const updatedUser = await user.update(updatedUserData);
+      console.log('Updated user:', updatedUser.toJSON());
       res.json(updatedUser);
-    })
-    .catch(err => {
-      res.status(400).json({ error: err.message });
-      console.log("Erreur lors de la mise à jour de l'utilisateur : " + err);
-    });
+    } else {
+      res.status(404).json({ error: 'Utilisateur non trouvé' });
+    }
+  } catch (err) {
+    res.status(400).json({ error: err.message });
+    console.error("Erreur lors de la mise à jour de l'utilisateur : ", err);
+  }
 }
 
 // Supprimer un utilisateur
-export function deleteUser(req, res) {
+export async function deleteUser(req, res) {
   const userId = req.params.id;
 
-  User.findByPk(userId)
-    .then(user => {
-      if (user) {
-        return user.destroy();
-      } else {
-        throw new Error('Utilisateur non trouvé');
-      }
-    })
-    .then(() => {
+  try {
+    console.log('Delete user by ID:', userId);
+    const user = await User.findByPk(userId);
+    console.log('Found user:', user ? user.toJSON() : null);
+    if (user) {
+      await user.destroy();
       res.json({ message: 'Utilisateur supprimé avec succès' });
-    })
-    .catch(err => {
-      res.status(400).json({ error: err.message });
-      console.log("Erreur lors de la suppression de l'utilisateur : " + err);
-    });
+    } else {
+      res.status(404).json({ error: 'Utilisateur non trouvé' });
+    }
+  } catch (err) {
+    res.status(500).json({ error: err.message });
+    console.error("Erreur lors de la suppression de l'utilisateur : ", err);
+  }
 }
