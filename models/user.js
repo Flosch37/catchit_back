@@ -40,7 +40,10 @@ User.init({
             isEmail: { msg: "Doit être une adresse email valide." },
         }
     },
-    role: DataTypes.STRING
+    role: {
+        type: DataTypes.STRING,
+        defaultValue: 'user' 
+    }
 }, {
     sequelize,
     modelName: 'User',

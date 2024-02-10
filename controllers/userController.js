@@ -1,19 +1,17 @@
 import bcrypt from 'bcrypt';
 import jwt from 'jsonwebtoken';
-import User from '../models/user.js'; // Assurez-vous que le chemin d'importation est correct
+import User from '../models/user.js'; 
 
-// Fonction pour créer un nouvel utilisateur avec un mot de passe haché
 export async function createUser(req, res) {
   const { username, password, email } = req.body;
 
   try {
     console.log('Request body:', req.body);
-    //const hashedPassword = await bcrypt.hash(password, 10); // Hache le mot de passe
-    //console.log('Hashed password:', hashedPassword);
     const user = await User.create({
       username,
       password: password,
       email,
+      role: 'user',
     });
     console.log('Created user:', user.toJSON());
     res.status(201).json(user);
@@ -23,14 +21,13 @@ export async function createUser(req, res) {
   }
 }
 
-// Fonction pour connecter un utilisateur avec comparaison du mot de passe
 export async function loginUser(req, res) {
   const { username, password } = req.body;
 
   try {
     console.log('Login request:', req.body);
     const user = await User.findOne({ where: { username } });
-    console.log('Found user:', user ? user.toJSON() : null);
+    console.log('Found user loginUser:', user ? user.toJSON() : null);
     if (!user) {
       return res.status(401).json({ message: 'Identifiants invalides.' });
     }
@@ -44,21 +41,20 @@ export async function loginUser(req, res) {
 
     const token = jwt.sign({ userId: user.id }, process.env.JWT_SECRET, { expiresIn: '1h' });
     console.log('Generated token:', token);
-    res.json({ message: 'Connexion réussie', token });
+    res.json({ message: 'Connexion réussie', token, role: user.role});
   } catch (err) {
     res.status(500).json({ error: err.message });
     console.error("Erreur lors de la connexion de l'utilisateur : ", err);
   }
 }
 
-// Lire un utilisateur par son ID
 export async function getUserById(req, res) {
   const userId = req.params.id;
 
   try {
     console.log('Get user by ID:', userId);
     const user = await User.findByPk(userId);
-    console.log('Found user:', user ? user.toJSON() : null);
+    console.log('Found user getUserById:', user ? user.toJSON() : null);
     if (user) {
       res.json(user);
     } else {
@@ -70,7 +66,25 @@ export async function getUserById(req, res) {
   }
 }
 
-// Mettre à jour un utilisateur
+export async function getUserByName(req, res) {
+  const userName = req.params.username;
+
+  try {
+    console.log(userName);
+    const user = await User.findOne({ where: { username: userName } });
+    console.log('Found user getUserByName:', user ? user.toJSON() : null);
+    if (user) {
+      res.json(user);
+    } else {
+      res.status(404).json({ error: 'Utilisateur non trouvé' });
+    }
+  } catch (err) {
+    console.error("Erreur lors de la recherche de l'utilisateur : ", err);
+    res.status(500).json({ error: err.message });
+  }
+};
+
+
 export async function updateUser(req, res) {
   const userId = req.params.id;
   const updatedUserData = req.body;
@@ -79,7 +93,7 @@ export async function updateUser(req, res) {
     console.log('Update user by ID:', userId);
     console.log('Updated user data:', updatedUserData);
     const user = await User.findByPk(userId);
-    console.log('Found user:', user ? user.toJSON() : null);
+    console.log('Found user updateUser:', user ? user.toJSON() : null);
     if (user) {
       const updatedUser = await user.update(updatedUserData);
       console.log('Updated user:', updatedUser.toJSON());
@@ -93,14 +107,13 @@ export async function updateUser(req, res) {
   }
 }
 
-// Supprimer un utilisateur
 export async function deleteUser(req, res) {
   const userId = req.params.id;
 
   try {
     console.log('Delete user by ID:', userId);
     const user = await User.findByPk(userId);
-    console.log('Found user:', user ? user.toJSON() : null);
+    console.log('Found user deleteUser:', user ? user.toJSON() : null);
     if (user) {
       await user.destroy();
       res.json({ message: 'Utilisateur supprimé avec succès' });

@@ -1,4 +1,4 @@
-import verify from 'jsonwebtoken';
+import jwt from 'jsonwebtoken'; 
 
 function authenticateToken(req, res, next) {
     const authHeader = req.headers['authorization'];
@@ -9,9 +9,9 @@ function authenticateToken(req, res, next) {
     }
 
     try {
-        const verified = verify(token, process.env.JWT_SECRET);
+        const verified = jwt.verify(token, process.env.JWT_SECRET); 
         req.user = verified;
-        next(); // Passe à la prochaine fonction middleware
+        next(); 
     } catch (err) {
         res.status(400).json({ message: 'Token invalide' });
     }

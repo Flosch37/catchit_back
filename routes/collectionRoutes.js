@@ -1,20 +1,38 @@
 import { Router } from 'express';
-const router = Router();
+import { body, validationResult } from 'express-validator';
+import authenticateToken from '../middlewares/authenticateToken.js'; 
 import { getAllCollections, createCollection, getCollectionById, updateCollection, deleteCollection } from '../controllers/collectionController.js';
 
+const router = Router();
 
-router.get('/', getAllCollections); 
 
-// Créer une nouvelle collection
-router.post('/', createCollection); 
+const validateCollection = [
+  body('name').trim().notEmpty().withMessage('Le nom est requis.'),
+  body('description').trim(), 
+  
+];
 
-// Lire une collection par son ID
-router.get('/:id', getCollectionById); 
+router.get('/', getAllCollections);
 
-// Mettre à jour une collection
-router.put('/:id', updateCollection); 
+router.post('/', authenticateToken, validateCollection, (req, res) => {
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) {
+        return res.status(400).json({ errors: errors.array() });
+    }
+    createCollection(req, res);
+});
 
-// Supprimer une collection
-router.delete('/:id', deleteCollection); 
+router.get('//:id', getCollectionById);
+
+// Mettre à jour une collection avec vérification du token et de la validation
+router.put('/:id', authenticateToken, validateCollection, (req, res) => {
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) {
+        return res.status(400).json({ errors: errors.array() });
+    }
+    updateCollection(req, res);
+});
+
+router.delete('/:id', authenticateToken, deleteCollection);
 
 export default router;

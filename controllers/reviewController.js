@@ -1,4 +1,4 @@
-import Review from '../models/review.js'; // Assurez-vous que le chemin et le nom du fichier sont corrects
+import Review from '../models/review.js'; 
 
 // Créer une nouvelle review
 export async function createReview(req, res) {
@@ -10,7 +10,6 @@ export async function createReview(req, res) {
   }
 }
 
-// Lire une review par son ID
 export async function getReviewById(req, res) {
   try {
     const review = await Review.findByPk(req.params.id);
@@ -24,7 +23,6 @@ export async function getReviewById(req, res) {
   }
 }
 
-// Mettre à jour une review
 export async function updateReview(req, res) {
   try {
     const review = await Review.findByPk(req.params.id);
@@ -39,7 +37,6 @@ export async function updateReview(req, res) {
   }
 }
 
-// Supprimer une review
 export async function deleteReview(req, res) {
   try {
     const review = await Review.findByPk(req.params.id);
@@ -54,7 +51,6 @@ export async function deleteReview(req, res) {
   }
 }
 
-// Lister tous les avis pour un objet spécifique
 export async function getReviewsByObjectId(req, res) {
   try {
     const reviews = await Review.findAll({
@@ -66,7 +62,6 @@ export async function getReviewsByObjectId(req, res) {
   }
 }
 
-// Lister tous les avis par un utilisateur spécifique
 export async function getReviewsByUserId(req, res) {
   try {
     const reviews = await Review.findAll({
