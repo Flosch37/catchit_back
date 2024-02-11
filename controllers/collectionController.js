@@ -3,6 +3,8 @@ import { validationResult } from 'express-validator';
 
 // Créer une nouvelle collection
 export async function createCollection(req, res) {
+    console.log("Eu hello");
+    console.log("Eh fdp jsuis la jsuis req.body respecte un peu", req.body);
     const errors = validationResult(req);
     if (!errors.isEmpty()) {
         return res.status(400).json({ errors: errors.array() });
@@ -33,6 +35,21 @@ export async function getCollectionById(req, res) {
     }
 }
 
+// Lire les collections par l'ID de l'utilisateur
+export async function getCollectionByUserId(req, res) {
+    const userId = req.params.userId;
+
+    try {
+        const collections = await Collection.findAll({
+            where: { userId: userId }
+        });
+        res.json(collections);
+    } catch (err) {
+        res.status(500).json({ error: err.message });
+    }
+}
+
+
 // Mettre à jour une collection
 export async function updateCollection(req, res) {
     const errors = validationResult(req);
@@ -41,7 +58,7 @@ export async function updateCollection(req, res) {
     }
 
     const collectionId = req.params.id;
-    const userId = req.user.id; // L'ID de l'utilisateur est récupéré du middleware d'authentification
+    const userId = req.user.id; 
     const updatedCollectionData = req.body;
 
     try {
