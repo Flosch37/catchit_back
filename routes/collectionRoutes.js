@@ -1,7 +1,7 @@
 import { Router } from 'express';
 import { body, validationResult } from 'express-validator';
 import authenticateToken from '../middlewares/authenticateToken.js'; 
-import { getAllCollections, createCollection, getCollectionById, updateCollection, deleteCollection, getCollectionByUserId } from '../controllers/collectionController.js';
+import { getAllCollections, createCollection, getCollectionById, updateCollection, deleteCollection, getCollectionByUserId, getCollectionByName} from '../controllers/collectionController.js';
 
 const router = Router();
 
@@ -33,6 +33,8 @@ router.put('/:id', authenticateToken, validateCollection, (req, res) => {
     }
     updateCollection(req, res);
 });
+
+router.get('/collection/name', getCollectionByName);
 
 router.get('/collections/user/:userId', getCollectionByUserId);
 

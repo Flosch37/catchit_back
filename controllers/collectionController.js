@@ -3,8 +3,6 @@ import { validationResult } from 'express-validator';
 
 // Créer une nouvelle collection
 export async function createCollection(req, res) {
-    console.log("Eu hello");
-    console.log("Eh fdp jsuis la jsuis req.body respecte un peu", req.body);
     const errors = validationResult(req);
     if (!errors.isEmpty()) {
         return res.status(400).json({ errors: errors.array() });
@@ -105,3 +103,21 @@ export async function getAllCollections(req, res) {
         res.status(500).json({ error: err.message });
     }
 }
+
+export async function getCollectionByName(req, res) {
+    const name = req.params.name;
+  
+    try {
+      console.log(name);
+      const collection = await collection.findOne({ where: { name: name } });
+      console.log('Found collection geCollectionByName:', collection ? collection.toJSON() : null);
+      if (collection) {
+        res.json(collection);
+      } else {
+        res.status(404).json({ error: 'Collection non trouvé' });
+      }
+    } catch (err) {
+      console.error("Erreur lors de la recherche de la collection : ", err);
+      res.status(500).json({ error: err.message });
+    }
+  };

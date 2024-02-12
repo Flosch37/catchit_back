@@ -35,6 +35,35 @@ export function getObjectById(req, res) {
     });
 }
 
+export async function getObjectByCollectionId(req, res) {
+  const collectionId = req.params.collectionId;
+
+  try {
+      const object = await Object.findAll({
+          where: { collectionId: collectionId }
+      });
+      res.json(object);
+  } catch (err) {
+      res.status(500).json({ error: err.message });
+  }
+}
+
+// Récupérer les trois dernières collections
+export async function getAllObjectsByCollectionId(req, res) {
+  const collectionId = req.params.collectionId;
+  try {
+      const objects = await Object.findAll({
+          where: { collectionId: collectionId },
+          limit: 500,
+          order: [['createdAt', 'DESC']]
+      });
+      res.json(objects);
+  } catch (err) {
+      res.status(500).json({ error: err.message });
+  }
+}
+
+
 // Mettre à jour un objet
 export function updateObject(req, res) {
   const objectId = req.params.id;

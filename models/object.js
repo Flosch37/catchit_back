@@ -4,7 +4,7 @@ export default (sequelize, DataTypes) => {
   class Object extends Model {
     
     static associate(models) {
-      // define association here
+      Object.belongsTo(models.Collection, { foreignKey: 'collectionId', as: 'objects' });
     }
   }
   Object.init({
