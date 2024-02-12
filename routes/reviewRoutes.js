@@ -1,5 +1,5 @@
 import express from 'express';
-import { createReview, getReviewById, updateReview, deleteReview, getReviewsByObjectId, getReviewsByUserId } from '../controllers/reviewController.js';
+import { createReview, getReviewById, updateReview, deleteReview, getReviewsByItemId, getReviewsByUserId } from '../controllers/reviewController.js';
 
 const router = express.Router();
 
@@ -16,7 +16,7 @@ router.put('/reviews/:id', updateReview);
 router.delete('/reviews/:id', deleteReview); 
 
 // Lister tous les avis pour un objet spécifique
-router.get('/reviews/object/:objectId', getReviewsByObjectId); 
+router.get('/reviews/item/:itemId', getReviewsByItemId); 
 
 // Lister tous les avis d'un utilisateur spécifique
 router.get('/reviews/user/:userId', getReviewsByUserId); 

@@ -1,14 +1,14 @@
 'use strict';
 import { Model } from 'sequelize';
 export default (sequelize, DataTypes) => {
-  class UserObjectOwned extends Model {
+  class UserItemOwned extends Model {
   ate(models) {
       
-      UserObjectOwned.belongsTo(models.User, { foreignKey: 'userId' });
-      UserObjectOwned.belongsTo(models.Object, { foreignKey: 'objectId' });
+      UserItemOwned.belongsTo(models.User, { foreignKey: 'userId' });
+      UserItemOwned.belongsTo(models.Item, { foreignKey: 'itemId' });
     }
   }
-  UserObjectOwned.init({
+  UserItemOwned.init({
     userId: {
       type: DataTypes.INTEGER,
       references: {
@@ -18,10 +18,10 @@ export default (sequelize, DataTypes) => {
       onUpdate: 'CASCADE',
       onDelete: 'CASCADE',
     },
-    objectId: {
+    itemId: {
       type: DataTypes.INTEGER,
       references: {
-        model: 'Object', 
+        model: 'Item', 
         key: 'id',
       },
       onUpdate: 'CASCADE',
@@ -30,7 +30,7 @@ export default (sequelize, DataTypes) => {
     quantity: DataTypes.INTEGER
   }, {
     sequelize,
-    modelName: 'UserObjectOwned',
+    modelName: 'UserItemOwned',
   });
-  return UserObjectOwned;
+  return UserItemOwned;
 };

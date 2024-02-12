@@ -1,13 +1,13 @@
-import Object from '../models/object.js'; // Remplacez 'object.js' par le nom de votre fichier de modèle d'objet
+import Item from '../models/item.js'; // Remplacez 'item.js' par le nom de votre fichier de modèle d'objet
 
 
 // Créer un nouvel objet
-export function createObject(req, res) {
-  const objectData = req.body;
+export function createItem(req, res) {
+  const itemData = req.body;
 
-  Object.create(objectData)
-    .then(object => {
-      res.status(201).json(object);
+  Item.create(itemData)
+    .then(item => {
+      res.status(201).json(item);
     })
     .catch(err => {
       res.status(400).json({ error: err.message });
@@ -16,13 +16,13 @@ export function createObject(req, res) {
 }
 
 // Lire un objet par son ID
-export function getObjectById(req, res) {
-  const objectId = req.params.id;
+export function getItemById(req, res) {
+  const itemId = req.params.id;
 
-  Object.findByPk(objectId)
-    .then(object => {
-      if (object) {
-        res.json(object);
+  Item.findByPk(itemId)
+    .then(item => {
+      if (item) {
+        res.json(item);
         console.log("Objet trouvé");
       } else {
         res.status(404).json({ error: 'Objet non trouvé' });
@@ -35,29 +35,29 @@ export function getObjectById(req, res) {
     });
 }
 
-export async function getObjectByCollectionId(req, res) {
+export async function getItemByCollectionId(req, res) {
   const collectionId = req.params.collectionId;
 
   try {
-      const object = await Object.findAll({
+      const item = await Item.findAll({
           where: { collectionId: collectionId }
       });
-      res.json(object);
+      res.json(item);
   } catch (err) {
       res.status(500).json({ error: err.message });
   }
 }
 
 // Récupérer les trois dernières collections
-export async function getAllObjectsByCollectionId(req, res) {
+export async function getAllItemsByCollectionId(req, res) {
   const collectionId = req.params.collectionId;
   try {
-      const objects = await Object.findAll({
+      const items = await Item.findAll({
           where: { collectionId: collectionId },
           limit: 500,
           order: [['createdAt', 'DESC']]
       });
-      res.json(objects);
+      res.json(items);
   } catch (err) {
       res.status(500).json({ error: err.message });
   }
@@ -65,20 +65,20 @@ export async function getAllObjectsByCollectionId(req, res) {
 
 
 // Mettre à jour un objet
-export function updateObject(req, res) {
-  const objectId = req.params.id;
-  const updatedObjectData = req.body;
+export function updateItem(req, res) {
+  const itemId = req.params.id;
+  const updatedItemData = req.body;
 
-  Object.findByPk(objectId)
-    .then(object => {
-      if (object) {
-        return object.update(updatedObjectData);
+  Item.findByPk(itemId)
+    .then(item => {
+      if (item) {
+        return item.update(updatedItemData);
       } else {
         throw new Error('Objet non trouvé');
       }
     })
-    .then(updatedObject => {
-      res.json(updatedObject);
+    .then(updatedItem => {
+      res.json(updatedItem);
     })
     .catch(err => {
       res.status(400).json({ error: err.message });
@@ -87,13 +87,13 @@ export function updateObject(req, res) {
 }
 
 // Supprimer un objet
-export function deleteObject(req, res) {
-  const objectId = req.params.id;
+export function deleteItem(req, res) {
+  const itemId = req.params.id;
 
-  Object.findByPk(objectId)
-    .then(object => {
-      if (object) {
-        return object.destroy();
+  Item.findByPk(itemId)
+    .then(item => {
+      if (item) {
+        return item.destroy();
       } else {
         throw new Error('Objet non trouvé');
       }

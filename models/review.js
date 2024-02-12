@@ -7,14 +7,14 @@ export default (sequelize, DataTypes) => {
     static associate(models) {
       
       Review.belongsTo(models.User, { foreignKey: 'userId' });
-      Review.belongsTo(models.Object, { foreignKey: 'objectId' });
+      Review.belongsTo(models.Item, { foreignKey: 'itemId' });
     }
   }
   Review.init({
-    objectId: {
+    itemId: {
       type: DataTypes.INTEGER,
       references: {
-        model: 'Object', 
+        model: 'Item', 
         key: 'id',
       },
       onUpdate: 'CASCADE',

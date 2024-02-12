@@ -8,8 +8,8 @@ import cors from 'cors';
 // Importations des routes ajustées
 import userRoutes from './routes/userRoutes.js';
 import collectionRoutes from './routes/collectionRoutes.js';
-import objectRoutes from './routes/objectRoutes.js';
-import userObjectOwnedRoutes from './routes/userObjectOwnedRoutes.js';
+import itemRoutes from './routes/itemRoutes.js';
+import userItemOwnedRoutes from './routes/useItemOwnedRoutes.js';
 import reviewRoutes from './routes/reviewRoutes.js';
 // Supposons que vous avez créé des fichiers séparés pour l'enregistrement et la connexion
 import registerRoute from './routes/registerRoute.js'; 
@@ -24,8 +24,8 @@ app.use('/api/register', registerRoute); // Configuration de la route d'enregist
 //app.use('/api/login', loginRoute); // Configuration de la route de connexion
 
 app.use('/collection', collectionRoutes);
-app.use('/api/objects', objectRoutes);
-app.use('/api/userObjectsOwned', userObjectOwnedRoutes);
+app.use('/api/items', itemRoutes);
+app.use('/api/userItemsOwned', userItemOwnedRoutes);
 app.use('/api/reviews', reviewRoutes);
 
 // Connexion à la base de données

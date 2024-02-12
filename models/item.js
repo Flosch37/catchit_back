@@ -1,13 +1,13 @@
 'use strict';
 import { Model } from 'sequelize';
 export default (sequelize, DataTypes) => {
-  class Object extends Model {
+  class Item extends Model {
     
     static associate(models) {
-      Object.belongsTo(models.Collection, { foreignKey: 'collectionId', as: 'objects' });
+      Item.belongsTo(models.Collection, { foreignKey: 'collectionId', as: 'items' });
     }
   }
-  Object.init({
+  Item.init({
     collectionId: DataTypes.INTEGER,
     name: DataTypes.STRING,
     description: DataTypes.STRING,
@@ -15,7 +15,7 @@ export default (sequelize, DataTypes) => {
     is_real: DataTypes.BOOLEAN
   }, {
     sequelize,
-    modelName: 'Object',
+    modelName: 'Item',
   });
-  return Object;
+  return Item;
 };

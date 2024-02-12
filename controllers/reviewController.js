@@ -51,10 +51,10 @@ export async function deleteReview(req, res) {
   }
 }
 
-export async function getReviewsByObjectId(req, res) {
+export async function getReviewsByItemId(req, res) {
   try {
     const reviews = await Review.findAll({
-      where: { ObjectId: req.params.objectId }
+      where: { ItemId: req.params.ItemId }
     });
     res.json(reviews);
   } catch (err) {
