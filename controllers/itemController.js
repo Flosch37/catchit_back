@@ -53,9 +53,7 @@ export async function getAllItemsByCollectionId(req, res) {
   const collectionId = req.params.collectionId;
   try {
       const items = await Item.findAll({
-          where: { collectionId: collectionId },
-          limit: 500,
-          order: [['createdAt', 'DESC']]
+          where: { collectionId: collectionId }
       });
       res.json(items);
   } catch (err) {

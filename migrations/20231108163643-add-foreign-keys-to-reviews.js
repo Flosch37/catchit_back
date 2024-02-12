@@ -14,7 +14,7 @@ module.exports = {
       onDelete: 'SET NULL'
     });
 
-    // Modifier la colonne objectId dans la table Reviews
+
     await queryInterface.changeColumn('Reviews', 'itemId', {
       type: Sequelize.INTEGER,
       allowNull: false,
@@ -26,7 +26,7 @@ module.exports = {
       onDelete: 'SET NULL'
     });
 
-     // Modifier la colonne objectId dans la table Reviews
+
      await queryInterface.changeColumn('Reviews', 'userId', {
       type: Sequelize.INTEGER,
       allowNull: false,
@@ -50,7 +50,7 @@ module.exports = {
       onDelete: 'SET NULL'
     });
 
-    // Modifier la colonne userId dans la table UserObjectOwned
+
     await queryInterface.changeColumn('UserItemOwneds', 'itemId', {
       type: Sequelize.INTEGER,
       allowNull: false,
