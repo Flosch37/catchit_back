@@ -13,7 +13,6 @@ import userItemOwnedRoutes from './routes/useItemOwnedRoutes.js';
 import reviewRoutes from './routes/reviewRoutes.js';
 // Supposons que vous avez créé des fichiers séparés pour l'enregistrement et la connexion
 import registerRoute from './routes/registerRoute.js'; 
-import loginRoute from './routes/loginRoute.js';
 
 app.use(cors());
 app.use(express.json());
@@ -23,7 +22,7 @@ app.use('/api/users', userRoutes);
 app.use('/api/register', registerRoute); // Configuration de la route d'enregistrement
 //app.use('/api/login', loginRoute); // Configuration de la route de connexion
 
-app.use('/collection', collectionRoutes);
+app.use('/api/collection', collectionRoutes);
 app.use('/api/items', itemRoutes);
 app.use('/api/userItemsOwned', userItemOwnedRoutes);
 app.use('/api/reviews', reviewRoutes);

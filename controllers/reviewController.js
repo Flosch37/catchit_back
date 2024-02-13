@@ -10,6 +10,15 @@ export async function createReview(req, res) {
   }
 }
 
+export async function getAllReview(req, res) {
+  try {
+    const reviews = await Review.findAll();
+      res.json(reviews); 
+  } catch (err) {
+    res.status(500).json({ error: err.message });
+  }
+}
+
 export async function getReviewById(req, res) {
   try {
     const review = await Review.findByPk(req.params.id);
@@ -52,9 +61,10 @@ export async function deleteReview(req, res) {
 }
 
 export async function getReviewsByItemId(req, res) {
+  const itemParam = req.params.itemId;
   try {
     const reviews = await Review.findAll({
-      where: { ItemId: req.params.ItemId }
+      where: { ItemId: itemParam }
     });
     res.json(reviews);
   } catch (err) {

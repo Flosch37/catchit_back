@@ -12,7 +12,7 @@ const validateCollection = [
   
 ];
 
-router.get('/', getAllCollections);
+router.get('/all', getAllCollections);
 
 router.post('/add', authenticateToken, validateCollection, (req, res) => {
     // const errors = validationResult(req);
