@@ -16,9 +16,29 @@ const isAdmin = async (req, res, next) => {
     res.status(500).json({ message: 'Erreur lors de la vérification des autorisations.' });
   }
 };
+// Mettre à jour le rôle d'un utilisateur
+router.put('/user/:id/role', authenticateToken, isAdmin, async (req, res) => {
+  const { role } = req.body;
+  const { id } = req.params;
+  const VALID_ROLES = ['admin', 'user']; 
 
-router.get('/adminPage', authenticateToken, isAdmin, (req, res) => {
-  res.json({ message: 'Cette route est accessible uniquement par les administrateurs.' });
+  try {
+    // Vérification si le rôle fourni est valide
+    if (!VALID_ROLES.includes(role)) {
+      return res.status(400).json({ message: "Rôle non valide." });
+    }
+
+    const user = await User.findByPk(id);
+    if (user) {
+      await user.update({ role });
+      res.json({ message: 'Rôle de l\'utilisateur mis à jour avec succès.' });
+    } else {
+      res.status(404).json({ message: "Utilisateur non trouvé." });
+    }
+  } catch (error) {
+    res.status(500).json({ message: 'Erreur lors de la mise à jour du rôle de l\'utilisateur.' });
+  }
 });
+
 
 export default router;

@@ -1,7 +1,9 @@
 import { Router } from 'express';
 const router = Router();
-import { createUser, getUserById, updateUser, deleteUser, loginUser , getUserByName } from '../controllers/userController.js';
+import { createUser, getUserById, updateUser, deleteUser, loginUser , getUserByName, getAllUsers } from '../controllers/userController.js';
 import authenticateToken from '../middlewares/authenticateToken.js';
+
+router.get('/all', getAllUsers);
 
 // Route pour créer un nouvel utilisateur (inscription)
 router.post('/register', createUser);

@@ -95,7 +95,6 @@ export async function deleteCollection(req, res) {
 export async function getAllCollections(req, res) {
     try {
         const collections = await Collection.findAll({
-            limit: 3,
             order: [['createdAt', 'DESC']]
         });
         res.json(collections);

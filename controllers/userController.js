@@ -2,6 +2,17 @@ import bcrypt from 'bcrypt';
 import jwt from 'jsonwebtoken';
 import User from '../models/user.js'; 
 
+
+export async function getAllUsers(req, res) {
+  try {
+    const users = await User.findAll();
+    res.json(users); 
+  } catch (err) {
+    res.status(500).json({ error: err.message });
+  }
+}
+
+
 export async function createUser(req, res) {
   const { username, password, email } = req.body;
 
