@@ -1,5 +1,5 @@
 import { Router } from 'express';
-import { createUserItemOwned, getUserItemOwnedById, updateUserItemOwned, deleteUserItemOwned } from '../controllers/userItemOwnedController.js';
+import { createUserItemOwned, getUserItemOwnedById,getAllUserItemOwned, getAllUserItemOwnedByItem, updateUserItemOwned, deleteUserItemOwned } from '../controllers/userItemOwnedController.js';
 
 const router = Router();
 
@@ -8,6 +8,10 @@ router.post('/add', createUserItemOwned);
 
 // Get a UserItemOwned by ID
 router.get('/user-item-owned/:id', getUserItemOwnedById);
+
+router.get('/all', getAllUserItemOwned);
+
+router.get('/all/:id'), getAllUserItemOwnedByItem;
 
 // Update a UserItemOwned
 router.put('/:id', updateUserItemOwned);

@@ -24,6 +24,21 @@ export async function getUserItemOwnedById(req, res) {
   }
 }
 
+export async function getAllUserItemOwned(req, res) {
+  try {
+    const allUserItemOwned = await UserItemOwned.findAll(); 
+    if (allUserItemOwned) {
+      res.json(allUserItemOwned);
+    } else {
+      res.status(404).json({ error: 'User items owned not found' });
+    }
+  } catch (err) {
+    res.status(500).json({ error: err.message });
+  }
+}
+
+
+
 // Mettre à jour un objet possédé par l'utilisateur
 export async function updateUserItemOwned(req, res) {
   try {
@@ -48,6 +63,20 @@ export async function deleteUserItemOwned(req, res) {
       res.json({ message: 'UserItemOwned deleted successfully' });
     } else {
       res.status(404).json({ error: 'UserItemOwned not found' });
+    }
+  } catch (err) {
+    res.status(500).json({ error: err.message });
+  }
+}
+
+
+export async function getAllUserItemOwnedByItem(req, res) {
+  try {
+    const getAllUserItemOwnedByItem = await getAllUserItemOwnedByItem.findAll();
+    if (getAllUserItemOwnedByItem) {
+      res.json(getAllUserItemOwnedByItem);
+    } else {
+      res.status(404).json({ error: 'getAllUserItemOwnedByItem not found' });
     }
   } catch (err) {
     res.status(500).json({ error: err.message });
