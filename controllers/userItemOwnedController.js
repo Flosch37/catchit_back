@@ -70,10 +70,13 @@ export async function deleteUserItemOwned(req, res) {
 }
 
 
-export async function getAllUserItemOwnedByItem(req, res) {
+export async function getAllUserItemOwnedByItemId(req, res) {
   try {
-    const getAllUserItemOwnedByItem = await getAllUserItemOwnedByItem.findAll();
+    const getAllUserItemOwnedByItem= await UserItemOwned.findAll({
+      where: { itemId: req.params.id}
+    })
     if (getAllUserItemOwnedByItem) {
+      
       res.json(getAllUserItemOwnedByItem);
     } else {
       res.status(404).json({ error: 'getAllUserItemOwnedByItem not found' });

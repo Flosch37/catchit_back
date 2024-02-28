@@ -5,14 +5,13 @@ import jwt from 'jsonwebtoken';
 
 const router = Router();
 
-// Utilisation d'une variable d'environnement pour le secret JWT
 const JWT_SECRET = process.env.JWT_SECRET;
 
 router.post('/register', async (req, res) => {
     const { username, password, email } = req.body;
 
     if (!username || !password || !email || password.length < 8) {
-        return res.status(400).json({ message: 'Validation failed: all fields are required and password must be at least 8 characters long.' });
+        return res.status(400).json({ message: 'La validation a échoué : tous les champs sont requis et le mot de passe doit contenir au moins 8 caractères.' });
     }
 
     try {
@@ -23,9 +22,6 @@ router.post('/register', async (req, res) => {
             return res.status(409).json({ message: 'Username is already taken.' });
         }
 
-        //const hashedPassword = await hash(password, 12);
-        //console.log('Hashed password:', hashedPassword);
-
         const newUser = await User.create({
             username,
             password: password,
@@ -33,7 +29,6 @@ router.post('/register', async (req, res) => {
         });
         console.log('Created user:', newUser.toJSON());
 
-        // Utilisation de sign à partir de l'importation ajustée
         const token = jwt.sign({ userId: newUser.id }, JWT_SECRET, { expiresIn: '1h' });
 
         console.log('Generated token:', token);

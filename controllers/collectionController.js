@@ -1,7 +1,6 @@
 import Collection from '../models/collection.js'; 
 import { validationResult } from 'express-validator';
 
-// Créer une nouvelle collection
 export async function createCollection(req, res) {
     const errors = validationResult(req);
     if (!errors.isEmpty()) {
@@ -17,7 +16,6 @@ export async function createCollection(req, res) {
     }
 }
 
-// Lire une collection par son ID
 export async function getCollectionById(req, res) {
     const collectionId = req.params.id;
 
@@ -33,7 +31,6 @@ export async function getCollectionById(req, res) {
     }
 }
 
-// Lire les collections par l'ID de l'utilisateur
 export async function getCollectionByUserId(req, res) {
     const userId = req.params.userId;
 
@@ -48,7 +45,6 @@ export async function getCollectionByUserId(req, res) {
 }
 
 
-// Mettre à jour une collection
 export async function updateCollection(req, res) {
     const errors = validationResult(req);
     if (!errors.isEmpty()) {
@@ -74,7 +70,6 @@ export async function updateCollection(req, res) {
     }
 }
 
-// Supprimer une collection
 export async function deleteCollection(req, res) {
     const collectionId = req.params.id;
 
@@ -91,7 +86,6 @@ export async function deleteCollection(req, res) {
     }
 }
 
-// Récupérer les trois dernières collections
 export async function getAllCollections(req, res) {
     try {
         const collections = await Collection.findAll({

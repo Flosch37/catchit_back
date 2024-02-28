@@ -34,7 +34,6 @@ router.post('/login', async (req, res) => {
             return res.status(401).json({ message: 'Identifiants invalides.' });
         }
 
-        // Création et envoi du token JWT
         const token = jwt.sign({ userId: user.id }, JWT_SECRET, { expiresIn: '1h' });
         console.log('Token généré:', token);
         res.json({ message: 'Connexion réussie', token });

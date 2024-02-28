@@ -1,4 +1,4 @@
-import Item from '../models/item.js'; // Remplacez 'item.js' par le nom de votre fichier de modèle d'objet
+import Item from '../models/item.js'; 
 
 
 // Créer un nouvel objet
